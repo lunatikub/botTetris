@@ -50,7 +50,6 @@ inc = include_directories(
 )
 
 src = files(
-  'src/main.c',
   'src/tetrimino/tetrimino.c',
 )
 
@@ -58,6 +57,24 @@ src = files(
 botTetris = executable(
   'botTetris',
   src,
+  'src/main.c',
   include_directories: inc,
   c_args: flags,
 )
+
+###########
+## Tests ##
+###########
+
+test_src = files(
+  'tests/test.c'
+)
+test_inc = include_directories('tests')
+
+tests = [
+  'tetrimino',
+]
+
+foreach test : tests
+  subdir(join_paths('tests', test))
+endforeach

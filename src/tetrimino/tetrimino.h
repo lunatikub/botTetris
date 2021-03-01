@@ -9,8 +9,10 @@
 enum tetrimino_type {
   TETRIMINO_I,
   TETRIMINO_J,
+  TETRIMINO_L,
   TETRIMINO_O,
   TETRIMINO_T,
+  TETRIMINO_S,
   TETRIMINO_Z,
 };
 

@@ -4,9 +4,11 @@
 #include "tetrimino.h"
 
 #include "tetrimino_I.h"
+#include "tetrimino_L.h"
 #include "tetrimino_J.h"
 #include "tetrimino_O.h"
 #include "tetrimino_T.h"
+#include "tetrimino_S.h"
 #include "tetrimino_Z.h"
 
 const struct tetrimino* tetrimino_get(enum tetrimino_type type)
@@ -16,10 +18,14 @@ const struct tetrimino* tetrimino_get(enum tetrimino_type type)
       return &tetrimino_I;
     case TETRIMINO_J:
       return &tetrimino_J;
+    case TETRIMINO_L:
+      return &tetrimino_L;
     case TETRIMINO_O:
       return &tetrimino_O;
     case TETRIMINO_T:
       return &tetrimino_T;
+    case TETRIMINO_S:
+      return &tetrimino_S;
     case TETRIMINO_Z:
       return &tetrimino_Z;
   };

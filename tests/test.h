@@ -5,14 +5,20 @@
 #include <stdio.h>
 #include <string.h>
 
-/**
- * Declare a test.
- */
+/* Colors */
+#define RESET  "\033[0m"
+#define RED    "\033[0;31m"
+#define GREEN  "\033[0;32m"
+#define PURPLE "\033[0;35m"
+#define CYAN   "\033[0;36m"
+#define YELLOW "\033[0;33m"
+
+#define BOLD "\e[1m"
+
+/* Declare a test. */
 #define TEST_F(name) static bool test_ ## name(void)
 
-/**
- * Add a test to the test suite.
- */
+/* Add a test to the test suite. */
 #define TEST(name) { #name, test_ ## name }
 
 /**
@@ -34,25 +40,17 @@ struct test_suite {
   const struct test *tests;
 };
 
-/**
- * Run a specific test.
- */
+/* Run a specific test. */
 bool run_test(const struct test *t);
 
-/**
- * Find a specific test in a test suite from the name.
- * Return NULL if not found.
- */
+/* Find a specific test in a test suite from the name.
+ * Return NULL if not found. */
 const struct test* find_test(const struct test_suite *ts, const char *name);
 
-/**
- * Run a test suite.
- */
+/* Run a test suite. */
 bool run_test_suite(const struct test_suite *ts);
 
-/**
- * Declare a test suite.
- */
+/* Declare a test suite. */
 #define TEST_SUITE(name)                                                \
   const static struct test_suite name ## _test_suite = {                \
     #name,                                                              \
@@ -75,24 +73,50 @@ bool run_test_suite(const struct test_suite *ts);
     return run_test_suite(&name ## _test_suite) ? 0 : -1;               \
   }
 
-/**
- * Following macro are helpers to be used in the tests.
- */
+/********************************************************
+ * Following macro are helpers to be used in the tests. *
+ ********************************************************/
 
 #define ERR                                                             \
-  fprintf(stderr, "[test failed] file:%s, line:%i\n", __FILE__, __LINE__)
+  fprintf(stderr, RED " [test failed] " RESET "file:%s, line:%i\n",     \
+          __FILE__, __LINE__)
 
-#define EXPECT_EQ(v1, v2)                       \
-  if (v1 != v2)  { ERR; return false; }
+#define EXPECT_EQ(V1, V2)                       \
+  if (V1 != V2) {                               \
+    fprintf(stderr, RED " [test failed] " RESET \
+            "EXPECT_EQ(%s,%s)\n", #V1, #V2);    \
+    ERR;                                        \
+    return false;                               \
+  }
 
-#define EXPECT_NE(v1, v2)                       \
-  if (v1 == v2) { ERR; return false; }
+#define EXPECT_NE(V1, V2)                       \
+  if (V1 == V2) {                               \
+    fprintf(stderr, RED " [test failed] " RESET \
+            "EXPECT_NE(%s,%s)\n", #V1, #V2);    \
+    ERR;                                        \
+    return false;                               \
+  }
 
-#define EXPECT_STREQ(str1, str2)                                \
-  if (strlen(str1) != strlen(str2) ||                           \
-      (strcmp((str1), (str2)) != 0)) { ERR; return false; }
+#define EXPECT_STREQ(S1, S2)                    \
+  if (strlen(S1) != strlen(S2) ||               \
+      (strcmp(S1, S2) != 0)) {                  \
+    fprintf(stderr, RED " [test failed] " RESET \
+            "EXPECT_STREQ(%s,%s)\n", S1, S2);   \
+    ERR;                                        \
+    return false;                               \
+  }
 
-#define EXPECT_TRUE(exp)                        \
-  if ((exp) != true) { ERR; return false; }
+#define EXPECT_TRUE(EXP)                        \
+  if ((EXP) != true) {                          \
+    fprintf(stderr, RED " [test failed] " RESET \
+            "EXPECT_TRUE(%s)\n", #EXP);         \
+    ERR;                                        \
+    return false;                               \
+  }
+
+/* Print information about the test. */
+#define INFO(...)                               \
+  printf(YELLOW " [info] " RESET __VA_ARGS__);   \
+  printf("\n");
 
 #endif /* !TEST_H__ */

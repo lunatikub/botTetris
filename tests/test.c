@@ -27,24 +27,31 @@ const struct test* find_test(const struct test_suite *ts, const char *name)
 
 bool run_test(const struct test *t)
 {
+  bool ok = true;
+  printf(" -\n");
+  printf(YELLOW " [start test] " BOLD "%s\n" RESET, t->name);
   const uint64_t start = get_ns();
-  printf("- %s: ", t->name);
-  if (t->test_f() != true) {
-    printf("KO (%lums)\n", (get_ns() - start) / 1000);
-    return false;
-  }
-  printf("OK (%lums)\n", (get_ns() - start) / 1000);
-  return true;
+  ok = t->test_f();
+  const uint64_t end = (get_ns() - start) / 1000;
+  const char *res = ok ? GREEN "OK" RESET : RED "KO" RESET;
+  printf(YELLOW " [end test] %s (%lums)\n", res, end);
+  return ok;
 }
 
 bool run_test_suite(const struct test_suite *ts)
 {
+  bool ok = true;
   const struct test *t;
-  printf("[[[%s]]]\n", ts->name);
+  printf(CYAN "[start test suite] " BOLD "%s\n" RESET, ts->name);
+  const uint64_t start = get_ns();
   for (t = &ts->tests[0]; t != &ts->tests[ts->nr_test]; ++t) {
     if (run_test(t) == false) {
-      return false;
+      ok = false;
+      break;
     }
   }
-  return true;
+  const uint64_t end = (get_ns() - start) / 1000;
+  const char *res = ok ? GREEN "OK" RESET : RED "KO" RESET;
+  printf(CYAN "[end test suite] %s (%lums)\n", res, end);
+  return ok;
 }

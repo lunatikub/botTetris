@@ -43,15 +43,35 @@ static inline bool test_block_line(const struct rotation *r)
   return true;
 }
 
+static inline bool test_height_col(const struct rotation *r)
+{
+  for (uint8_t x = 0; x < r->width; ++x) {
+    uint8_t h = 0;
+    for (uint8_t y = 0; y < r->height; ++y) {
+      if (r->blocks[y][x]) {
+        h = r->height - y;
+        break;
+      }
+    }
+    if (h != r->height_col[x]) {
+      return false;
+    }
+  }
+  return true;
+
+}
+
 static inline bool test_tetrimino(enum tetrimino_type t)
 {
   const struct tetrimino *tetrimino = tetrimino_get(t);
 
   for (uint8_t r = 0; r < tetrimino->nr_rotation; ++r) {
     const struct rotation *rotation= rotation_get(t, r);
+    INFO("rotation %u", r);
     EXPECT_TRUE(test_height(rotation));
     EXPECT_TRUE(test_width(rotation));
     EXPECT_TRUE(test_block_line(rotation));
+    EXPECT_TRUE(test_height_col(rotation));
   }
   return true;
 }

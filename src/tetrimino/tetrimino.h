@@ -9,6 +9,8 @@
 enum tetrimino_type {
   TETRIMINO_I,
   TETRIMINO_J,
+  TETRIMINO_O,
+  TETRIMINO_Z,
 };
 
 struct rotation {

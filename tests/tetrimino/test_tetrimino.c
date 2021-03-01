@@ -101,9 +101,21 @@ TEST_F(tetrimino_J)
   return test_tetrimino(TETRIMINO_J);
 }
 
+TEST_F(tetrimino_O)
+{
+  return test_tetrimino(TETRIMINO_O);
+}
+
+TEST_F(tetrimino_Z)
+{
+   return test_tetrimino(TETRIMINO_Z);
+}
+
 const static struct test tetrimino_tests[] = {
   TEST(tetrimino_I),
   TEST(tetrimino_J),
+  TEST(tetrimino_O),
+  TEST(tetrimino_Z),
 };
 
 TEST_SUITE(tetrimino);

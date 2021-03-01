@@ -61,6 +61,20 @@ static inline bool test_height_col(const struct rotation *r)
 
 }
 
+static inline bool test_holes(const struct rotation *r)
+{
+  for (uint8_t x = 0; x < r->width; ++x) {
+    int8_t y = r->height - 1;
+    while (r->blocks[y][x] == 0 && y >= 0){
+      --y;
+    }
+    if (r->height - y - 1 != r->holes[x]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 static inline bool test_tetrimino(enum tetrimino_type t)
 {
   const struct tetrimino *tetrimino = tetrimino_get(t);
@@ -72,6 +86,7 @@ static inline bool test_tetrimino(enum tetrimino_type t)
     EXPECT_TRUE(test_width(rotation));
     EXPECT_TRUE(test_block_line(rotation));
     EXPECT_TRUE(test_height_col(rotation));
+    EXPECT_TRUE(test_holes(rotation));
   }
   return true;
 }

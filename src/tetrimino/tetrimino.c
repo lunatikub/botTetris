@@ -4,12 +4,15 @@
 #include "tetrimino.h"
 
 #include "tetrimino_I.h"
+#include "tetrimino_J.h"
 
 const struct tetrimino* tetrimino_get(enum tetrimino_type type)
 {
   switch (type) {
     case TETRIMINO_I:
       return &tetrimino_I;
+    case TETRIMINO_J:
+      return &tetrimino_J;
   };
   assert(!"tetrimino unknown...");
 }

@@ -44,8 +44,8 @@ static const struct rotation T_2 = {
 
 /**
  * +---+
- * | X |
  * |XXX|
+ * | X |
  * +---+
  */
 static const struct rotation T_3 = {

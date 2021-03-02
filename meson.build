@@ -63,19 +63,4 @@ botTetris = executable(
   c_args: flags,
 )
 
-###########
-## Tests ##
-###########
-
-test_src = files(
-  'tests/test.c'
-)
-test_inc = include_directories('tests')
-
-tests = [
-  'tetrimino',
-]
-
-foreach test : tests
-  subdir(join_paths('tests', test))
-endforeach
+subdir('tests')

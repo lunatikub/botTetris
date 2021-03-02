@@ -52,3 +52,15 @@ struct field* field_duplicate(const struct field *dup)
 
   return f;
 }
+
+uint8_t get_line(const struct field *f, const struct rotation *r, uint8_t x)
+{
+  uint8_t y = 0;
+  for (uint8_t i = 0; i < r->width; ++i) {
+    int8_t l = f->col[x + i] - r->holes[i];
+    if (l > y && l > 0) {
+      y = l;
+    }
+  }
+  return f->height - y;
+}

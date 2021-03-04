@@ -4,9 +4,10 @@
 #define ROTATION 4
 #define TETRIMINO_SZ 4
 
+#include <stdbool.h>
 #include <stdint.h>
 
-enum tetrimino_type {
+enum type {
   TETRIMINO_I,
   TETRIMINO_J,
   TETRIMINO_L,
@@ -33,11 +34,11 @@ struct tetrimino {
 /**
  * Return the tetrimino instance from the type.
  */
-const struct tetrimino* tetrimino_get(enum tetrimino_type type);
+const struct tetrimino* tetrimino_get(enum type type);
 
 /**
  * Return the rotation instance from the type and the rotation number.
  */
-const struct rotation* rotation_get(enum tetrimino_type type, uint8_t rotation);
+const struct rotation* rotation_get(enum type type, uint8_t rotation);
 
 #endif /* !__TETRIMINO__ */

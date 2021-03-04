@@ -11,7 +11,7 @@
 #include "tetrimino_S.h"
 #include "tetrimino_Z.h"
 
-const struct tetrimino* tetrimino_get(enum tetrimino_type type)
+const struct tetrimino* tetrimino_get(enum type type)
 {
   switch (type) {
     case TETRIMINO_I:
@@ -32,7 +32,7 @@ const struct tetrimino* tetrimino_get(enum tetrimino_type type)
   assert(!"tetrimino unknown...");
 }
 
-const struct rotation* rotation_get(enum tetrimino_type type, uint8_t rotation)
+const struct rotation* rotation_get(enum type type, uint8_t rotation)
 {
   const struct tetrimino *t = tetrimino_get(type);
   assert(rotation < t->nr_rotation);

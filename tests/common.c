@@ -1,6 +1,6 @@
 #include "common.h"
 
-void set_line(struct field *field, uint8_t y, uint8_t *line, uint8_t sz)
+void line_set(struct field *field, uint8_t y, uint8_t *line, uint8_t sz)
 {
   /* Copy the line. */
   for (uint8_t x = 0; x < sz; ++x) {
@@ -13,12 +13,23 @@ void set_line(struct field *field, uint8_t y, uint8_t *line, uint8_t sz)
     uint8_t height = field->height - y;
     if (field->blocks[y][x]) {
       nr_block++;
-      if (field->col[x] < height) {
-        field->col[x] = height;
+      if (field->height_col[x] < height) {
+        field->height_col[x] = height;
       }
     }
   }
 
   /* Update the `line` field. */
-  field->line[y] = nr_block;
+  field->block_line[y] = nr_block;
+}
+
+bool line_eq(struct field *f, uint8_t y, uint8_t *line, uint8_t sz)
+{
+  for (uint8_t x = 0; x < sz; x++) {
+    /* XOR */
+    if ((f->blocks[y][x] == 0) != (line[x] == 0)) {
+      return false;
+    }
+  }
+  return true;
 }

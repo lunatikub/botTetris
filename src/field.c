@@ -67,9 +67,11 @@ static inline void line_clear(struct field *f, uint8_t y)
   memcpy(f->blocks[0], empty_line, FIELD_WIDTH * sizeof(uint8_t));
 
   for (uint8_t i = 0; i < FIELD_WIDTH; ++i) {
-    if (f->height_col[i] >= FIELD_HEIGHT - y) {
-      --f->height_col[i];
+    uint8_t j = 0;
+    while (j != FIELD_HEIGHT && f->blocks[j][i] == 0) {
+      ++j;
     }
+    f->height_col[i] = FIELD_HEIGHT - j;
   }
 }
 

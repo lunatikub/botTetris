@@ -4,9 +4,6 @@
 #include "common.h"
 #include "test.h"
 
-#define HEIGHT 20
-#define WIDTH  10
-
 static void dump(struct field *field)
 {
   for (uint8_t y = 0; y < FIELD_HEIGHT; y++) {
@@ -123,6 +120,7 @@ TEST_F(line_clear)
 
   EXPECT_TRUE(EQ(f, 18, LINE({0, 0, 0, 0, 0, 0, 0, 0, 0, 0})));
   EXPECT_TRUE(EQ(f, 19, LINE({0, 0, 0, 0, 0, 0, 0, 0, 1, 1})));
+
   EXPECT_EQ(f->height_col[8], 1);
   EXPECT_EQ(f->height_col[9], 1);
   EXPECT_EQ(f->block_line[18], 0);
@@ -142,12 +140,37 @@ TEST_F(line_clear)
   return true;
 }
 
+TEST_F(line_clear_with_hole)
+{
+  struct field *f = field_new();
+
+  SET(f, 18, LINE({0, 0, 1, 1, 1, 1, 1, 1, 1, 1}));
+  SET(f, 19, LINE({0, 1, 1, 1, 1, 1, 1, 1, 1, 0}));
+
+  rotation_put(f, TETRIMINO_S, 0, 0);
+
+  EXPECT_EQ(f->height_col[0], 0);
+  EXPECT_EQ(f->height_col[1], 2);
+  EXPECT_EQ(f->height_col[2], 2);
+  EXPECT_EQ(f->height_col[3], 1);
+  EXPECT_EQ(f->height_col[4], 1);
+  EXPECT_EQ(f->height_col[5], 1);
+  EXPECT_EQ(f->height_col[6], 1);
+  EXPECT_EQ(f->height_col[7], 1);
+  EXPECT_EQ(f->height_col[8], 1);
+  EXPECT_EQ(f->height_col[9], 0);
+
+  free(f);
+  return true;
+}
+
 const static struct test field_tests[] = {
   TEST(line_get),
   TEST(line_get_well),
   TEST(rotation_put_1),
   TEST(rotation_put_2),
   TEST(line_clear),
+  TEST(line_clear_with_hole),
 };
 
 TEST_SUITE(field);

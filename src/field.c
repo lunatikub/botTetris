@@ -4,51 +4,40 @@
 
 #include "field.h"
 
-#define ALLOC(SZ)                               \
-  ({                                            \
-    void *ptr = calloc(1, SZ);                  \
-    assert(ptr != NULL);                        \
-    ptr;                                        \
-  })
-
-struct field* field_new(uint8_t height, uint8_t width)
+struct field* field_new(void)
 {
-  struct field *f = ALLOC(sizeof(*f));
-
-  f->blocks = ALLOC(sizeof(uint8_t*) * height);
-  for (uint8_t i = 0; i < height; ++i) {
-    f->blocks[i] = ALLOC(sizeof(uint8_t) * width);
-  }
-  f->height_col = ALLOC(sizeof(uint8_t) * width);
-  f->block_line = ALLOC(sizeof(uint8_t) * height);
-  f->height = height;
-  f->width = width;
-
+  struct field *f = calloc(1, sizeof(*f));
+  assert(f != NULL);
   return f;
 }
 
-void field_destroy(struct field *f)
-{
-  free(f->block_line);
-  free(f->height_col);
-  for (uint8_t i = 0; i < f->height; ++i) {
-    free(f->blocks[i]);
-  }
-  free(f->blocks);
-  free(f);
-}
+/* void field_reset(struct field *f) */
+/* { */
+/*   for (uint8_t y = 0; y < FIELD_HEIGHT; ++y) { */
+/*     for (uint8_t x = 0; x < FIELD_WIDTH; ++x) { */
+/*       f->blocks[y][x] = 0; */
+/*     } */
+/*   } */
+/*   for (uint8_t y = 0; y < FIELD_HEIGHT; ++y) { */
+/*     f->block_line[y] = 0; */
+/*   } */
+/*   for (uint8_t x = 0; x < FIELD_WIDTH; ++x) { */
+/*     f->height_col[x] = 0; */
+/*   } */
+/* } */
 
 struct field* field_duplicate(const struct field *dup)
 {
-  struct field *f = field_new(dup->height, dup->width);
+  struct field *f = calloc(1, sizeof(*f));
+  assert(f != NULL);
 
-  for (uint8_t y = 0; y < f->height; ++y) {
-    for (uint8_t x = 0; x < f->width; ++x) {
+  for (uint8_t y = 0; y < FIELD_HEIGHT; ++y) {
+    for (uint8_t x = 0; x < FIELD_WIDTH; ++x) {
       f->blocks[y][x] = dup->blocks[y][x];
     }
   }
-  memcpy(f->height_col, dup->height_col, f->width * sizeof(uint8_t));
-  memcpy(f->block_line, dup->block_line, f->height * sizeof(uint8_t));
+  memcpy(f->height_col, dup->height_col, FIELD_WIDTH * sizeof(uint8_t));
+  memcpy(f->block_line, dup->block_line, FIELD_HEIGHT * sizeof(uint8_t));
 
   return f;
 }
@@ -62,21 +51,40 @@ uint8_t line_get(const struct field *f, const struct rotation *r, uint8_t x)
       y = l;
     }
   }
-  return f->height - y;
+  return FIELD_HEIGHT - y;
+}
+
+static inline void line_clear(struct field *f, uint8_t y)
+{
+  const static uint8_t empty_line[FIELD_WIDTH] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+
+  for (uint8_t i = y; i > 0; --i) {
+    memcpy(f->blocks[i], f->blocks[i - 1], FIELD_WIDTH * sizeof(uint8_t));
+    f->block_line[i] = f->block_line[i - 1];
+  }
+  memcpy(f->blocks[0], empty_line, FIELD_WIDTH * sizeof(uint8_t));
+
+  for (uint8_t i = 0; i < FIELD_WIDTH; ++i) {
+    if (f->height_col[i] >= FIELD_HEIGHT - y) {
+      --f->height_col[i];
+    }
+  }
 }
 
 static inline bool field_update(struct field *f,uint8_t x, uint8_t y)
 {
   /* Update the `height_col`. */
-  if (f->height - y > f->height_col[x]) {
-    f->height_col[x] = f->height - y;
+  if (FIELD_HEIGHT - y > f->height_col[x]) {
+    f->height_col[x] = FIELD_HEIGHT - y;
   }
 
   /* Update the `block_line`. */
   ++f->block_line[y];
   /* Clear completed line */
-  if (f->block_line[y] == f->width) {
-    /* TODO */
+  if (f->block_line[y] == FIELD_WIDTH) {
+    line_clear(f, y);
     return true;
   }
   return false;
@@ -89,7 +97,7 @@ bool rotation_put(struct field *f, enum type type, uint8_t rotation, uint8_t x)
   const struct rotation *r = rotation_get(type, rotation);
 
   /* Out of bounds. */
-    if (x + r->width > f->width) {
+  if (x + r->width > FIELD_WIDTH) {
     return false;
   }
 

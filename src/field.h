@@ -5,30 +5,22 @@
 
 #include "tetrimino.h"
 
+#define FIELD_HEIGHT 20
+#define FIELD_WIDTH  10
+
 struct field {
-  uint8_t **blocks;
-  uint8_t *height_col; /* Height of each column. */
-  uint8_t *block_line; /* Number of blocks filled by line. */
-  uint8_t height;
-  uint8_t width;
+  uint8_t blocks[FIELD_HEIGHT][FIELD_WIDTH];
+  uint8_t height_col[FIELD_WIDTH]; /* Height of each column. */
+  uint8_t block_line[FIELD_HEIGHT]; /* Number of blocks filled by line. */
 };
 
 /**
- * Create and allocate a new field from dims.
- *
- * @param height Height of the field.
- * @param width Width of the field.
+ * Create and allocate a new field.
  *
  * @return the field allocated.
+ * @warning has to be freed.
  */
-struct field* field_new(uint8_t height, uint8_t width);
-
-/**
- * Destroy and free a field previously allocated with @c field_new.
- *
- * @param f Field to be freed.
- */
-void field_destroy(struct field *f);
+struct field* field_new(void);
 
 /**
  * Duplicate a field.

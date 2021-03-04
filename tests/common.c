@@ -10,7 +10,7 @@ void line_set(struct field *field, uint8_t y, uint8_t *line, uint8_t sz)
   /* Update the `col` field. */
   uint8_t nr_block = 0;
   for (uint8_t x = 0; x < sz; ++x) {
-    uint8_t height = field->height - y;
+    uint8_t height = FIELD_HEIGHT - y;
     if (field->blocks[y][x]) {
       nr_block++;
       if (field->height_col[x] < height) {

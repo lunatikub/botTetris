@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 enum type {
-  TETRIMINO_I,
+  TETRIMINO_I = 1,
   TETRIMINO_J,
   TETRIMINO_L,
   TETRIMINO_O,

@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-enum type {
+typedef enum {
   TETRIMINO_I = 1,
   TETRIMINO_J,
   TETRIMINO_L,
@@ -15,7 +15,7 @@ enum type {
   TETRIMINO_T,
   TETRIMINO_S,
   TETRIMINO_Z,
-};
+} tetrimino_t;
 
 struct rotation {
   uint8_t blocks[TETRIMINO_SZ][TETRIMINO_SZ]; /* Rotation's blocks. */
@@ -34,11 +34,11 @@ struct tetrimino {
 /**
  * Return the tetrimino instance from the type.
  */
-const struct tetrimino* tetrimino_get(enum type type);
+const struct tetrimino* tetrimino_get(tetrimino_t t);
 
 /**
  * Return the rotation instance from the type and the rotation number.
  */
-const struct rotation* rotation_get(enum type type, uint8_t rotation);
+const struct rotation* rotation_get(tetrimino_t t, uint8_t rotation);
 
 #endif /* !__TETRIMINO__ */

@@ -75,7 +75,7 @@ static inline bool test_holes(const struct rotation *r)
   return true;
 }
 
-static inline bool test_tetrimino(enum type t)
+static inline bool test_tetrimino(tetrimino_t t)
 {
   const struct tetrimino *tetrimino = tetrimino_get(t);
 

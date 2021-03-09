@@ -92,11 +92,11 @@ static inline bool field_update(struct field *f,uint8_t x, uint8_t y)
   return false;
 }
 
-bool rotation_put(struct field *f, enum type type, uint8_t rotation, uint8_t x)
+bool rotation_put(struct field *f, tetrimino_t t, uint8_t rotation, uint8_t x)
 {
   uint8_t nr_completed_line = 0;
   uint8_t nr_completed_block = 0;
-  const struct rotation *r = rotation_get(type, rotation);
+  const struct rotation *r = rotation_get(t, rotation);
 
   /* Out of bounds. */
   if (x + r->width > FIELD_WIDTH) {
@@ -109,7 +109,7 @@ bool rotation_put(struct field *f, enum type type, uint8_t rotation, uint8_t x)
     uint8_t k = i + y - r->height;
     for (uint8_t j = 0; j < r->width; ++j) {
       if (r->blocks[i][j]) {
-        f->blocks[k][j + x] = type;
+        f->blocks[k][j + x] = t;
         if (field_update(f, j + x, k)) {
           ++nr_completed_line;
           nr_completed_block += r->block_line[i];

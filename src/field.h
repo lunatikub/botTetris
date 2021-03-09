@@ -46,11 +46,11 @@ uint8_t line_get(const struct field *f, const struct rotation *r, uint8_t x);
  * Put a tetrimino rotation on a field.
  *
  * @param f Field previously allocated with @c field_new.
- * @param type Tetrimino type.
+ * @param t Tetrimino type.
  * @param rotation Rotation of the tetrimino.
  * @param x Coordinate to put the rotation.
  * @return false if the put is out of bounds, otherwise return true.
  */
-bool rotation_put(struct field *f, enum type type, uint8_t rotation, uint8_t x);
+bool rotation_put(struct field *f, tetrimino_t t, uint8_t rotation, uint8_t x);
 
 #endif /* !__FIELD__ */

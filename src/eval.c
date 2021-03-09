@@ -13,3 +13,8 @@ int eval_delta_r(const struct field *f)
   }
   return dr;
 }
+
+int eval_erosion(const struct field *f)
+{
+  return f->erosion;
+}

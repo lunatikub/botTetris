@@ -81,23 +81,16 @@ bool run_test_suite(const struct test_suite *ts);
   fprintf(stderr, RED " [test failed] " RESET "file:%s, line:%i\n",     \
           __FILE__, __LINE__)
 
-#define EXPECT_EQ(V1, V2)                       \
+#define EXPECT_UINT_EQ(V1, V2)                  \
   if (V1 != V2) {                               \
     fprintf(stderr, RED " [test failed] " RESET \
-            "EXPECT_EQ(%s,%s)\n", #V1, #V2);    \
+            "UINT_EXPECT_EQ(%s:%u,%s:%u)\n",    \
+            #V1, V1, #V2, V2);                  \
     ERR;                                        \
     return false;                               \
   }
 
-#define EXPECT_NE(V1, V2)                       \
-  if (V1 == V2) {                               \
-    fprintf(stderr, RED " [test failed] " RESET \
-            "EXPECT_NE(%s,%s)\n", #V1, #V2);    \
-    ERR;                                        \
-    return false;                               \
-  }
-
-#define EXPECT_STREQ(S1, S2)                    \
+#define EXPECT_STR_EQ(S1, S2)                   \
   if (strlen(S1) != strlen(S2) ||               \
       (strcmp(S1, S2) != 0)) {                  \
     fprintf(stderr, RED " [test failed] " RESET \

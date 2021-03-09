@@ -1,26 +1,29 @@
 #include "common.h"
 
-void line_set(struct field *field, uint8_t y, uint8_t *line, uint8_t sz)
+void line_set(struct field *f, uint8_t y, uint8_t *line, uint8_t sz)
 {
   /* Copy the line. */
   for (uint8_t x = 0; x < sz; ++x) {
-    field->blocks[y][x] = line[x];
+    f->blocks[y][x] = line[x];
   }
 
-  /* Update the `col` field. */
-  uint8_t nr_block = 0;
-  for (uint8_t x = 0; x < sz; ++x) {
-    uint8_t height = FIELD_HEIGHT - y;
-    if (field->blocks[y][x]) {
-      nr_block++;
-      if (field->height_col[x] < height) {
-        field->height_col[x] = height;
-      }
+  /* Update the `height_col` field. */
+  for (uint8_t i = 0; i < FIELD_WIDTH; ++i) {
+    uint8_t j = 0;
+    while (j != FIELD_HEIGHT && f->blocks[j][i] == 0) {
+      ++j;
     }
+    f->height_col[i] = FIELD_HEIGHT - j;
   }
 
-  /* Update the `line` field. */
-  field->block_line[y] = nr_block;
+  /* Update the `block_line` field. */
+  for (uint8_t i = 0; i < FIELD_HEIGHT; ++i) {
+    uint8_t nr_block = 0;
+    for (uint8_t j = 0; j < FIELD_WIDTH; ++j) {
+      nr_block += (f->blocks[i][j] != 0);
+    }
+    f->block_line[i] = nr_block;
+  }
 }
 
 bool line_eq(struct field *f, uint8_t y, uint8_t *line, uint8_t sz)

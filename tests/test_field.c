@@ -1,24 +1,6 @@
-#include <stdlib.h>
-
 #include "tetrimino.h"
 #include "common.h"
 #include "test.h"
-
-static void dump(struct field *field)
-{
-  for (uint8_t y = 0; y < FIELD_HEIGHT; y++) {
-    printf("(%2u) ", y);
-    for (uint8_t x = 0; x < FIELD_WIDTH; x++) {
-      printf("%2u ", field->blocks[y][x]);
-    }
-    printf(" [%u]\n", field->block_line[y]);
-  }
-  printf("\n     ");
-  for (uint8_t x = 0; x < FIELD_WIDTH; x++) {
-    printf("%2u ", field->height_col[x]);
-  }
-  printf("\n");
-}
 
 TEST_F(line_get)
 {
@@ -28,8 +10,6 @@ TEST_F(line_get)
   SET(f, 19, LINE({1, 1, 1}));
 
   const struct rotation *r = rotation_get(TETRIMINO_J, 1);
-
-  dump(f);
 
   EXPECT_EQ(line_get(f, r, 0), 18);
   EXPECT_EQ(line_get(f, r, 1), 18);

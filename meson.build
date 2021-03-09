@@ -52,6 +52,7 @@ inc = include_directories(
 src = files(
   'src/tetrimino/tetrimino.c',
   'src/field.c',
+  'src/eval.c',
 )
 
 # binary

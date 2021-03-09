@@ -63,3 +63,33 @@ run_target(
 )
 
 test('test-field', test_field_bin)
+
+########
+# Eval #
+########
+
+test_eval_src = files(
+  'test_eval.c',
+)
+
+test_eval_bin = executable(
+  'test_eval',
+  test_src,
+  test_eval_src,
+  src,
+  include_directories: [
+    test_inc,
+    inc,
+  ],
+  c_args: flags,
+)
+
+run_target(
+  'test-eval',
+  command: [
+    test_eval_bin.full_path()
+  ],
+  depends: test_eval_bin,
+)
+
+test('test-eval', test_eval_bin)

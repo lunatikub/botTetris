@@ -36,3 +36,21 @@ bool line_eq(struct field *f, uint8_t y, uint8_t *line, uint8_t sz)
   }
   return true;
 }
+
+void dump(struct field *field)
+{
+  printf("|-------------------------------------|\n");
+  for (uint8_t y = 0; y < FIELD_HEIGHT; y++) {
+    printf("(%2u) ", y);
+    for (uint8_t x = 0; x < FIELD_WIDTH; x++) {
+      printf("%2u ", field->blocks[y][x]);
+    }
+    printf(" [%u]\n", field->block_line[y]);
+  }
+  printf("\n     ");
+  for (uint8_t x = 0; x < FIELD_WIDTH; x++) {
+    printf("%2u ", field->height_col[x]);
+  }
+  printf(" (col_height)\n");
+  printf("|-------------------------------------|\n\n");
+}

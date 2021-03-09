@@ -1,6 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -46,5 +47,12 @@ bool line_eq(struct field *f, uint8_t y, uint8_t *line, uint8_t sz);
     uint8_t L[] = LINE;                                 \
     line_eq(FIELD, Y, L, sizeof(L) / sizeof(uint8_t));  \
   })
+
+/**
+ * Dump the field.
+ *
+ * @param field allocated from @c field_new.
+ */
+void dump(struct field *field);
 
 #endif /* !COMMON_H__ */

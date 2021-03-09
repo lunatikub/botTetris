@@ -46,11 +46,10 @@ flags = c_compiler.get_supported_arguments(
 
 inc = include_directories(
   'src',
-  'src/tetrimino',
 )
 
 src = files(
-  'src/tetrimino/tetrimino.c',
+  'src/tetrimino.c',
   'src/field.c',
   'src/eval.c',
 )

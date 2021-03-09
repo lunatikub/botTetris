@@ -12,7 +12,8 @@ struct field {
   uint8_t blocks[FIELD_HEIGHT][FIELD_WIDTH];
   uint8_t height_col[FIELD_WIDTH]; /* Height of each column. */
   uint8_t block_line[FIELD_HEIGHT]; /* Number of blocks filled by line. */
-  int     erosion;
+  int erosion;
+  int hlt; /* Height of the last tetrimino placed. */
 };
 
 /**

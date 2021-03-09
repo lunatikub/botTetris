@@ -60,9 +60,23 @@ TEST_F(erosion)
   return true;
 }
 
+TEST_F(hlt)
+{
+  struct field *f = field_new();
+
+  SET(f, 18, LINE({1, 1, 1, 1, 1, 1, 1, 1, 1, 1}));
+  SET(f, 19, LINE({1, 1, 1, 1, 1, 1, 1, 1, 1, 1}));
+  rotation_put(f, TETRIMINO_T, 0, 1);
+  EXPECT_UINT_EQ(f->hlt, 3);
+
+  free(f);
+  return true;
+}
+
 const static struct test eval_tests[] = {
   TEST(delta_r),
   TEST(erosion),
+  TEST(hlt),
 };
 
 TEST_SUITE(eval);

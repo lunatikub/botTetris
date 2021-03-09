@@ -18,3 +18,8 @@ int eval_erosion(const struct field *f)
 {
   return f->erosion;
 }
+
+int eval_hlt(const struct field *f)
+{
+  return f->hlt;
+}

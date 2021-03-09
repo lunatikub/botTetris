@@ -119,6 +119,7 @@ bool rotation_put(struct field *f, enum type type, uint8_t rotation, uint8_t x)
   }
 
   f->erosion = nr_completed_line * nr_completed_block;
+  f->hlt = FIELD_HEIGHT - y + 1;
 
   return true;
 }

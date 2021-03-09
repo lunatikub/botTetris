@@ -23,4 +23,13 @@ int eval_delta_r(const struct field *f);
  */
 int eval_erosion(const struct field *f);
 
+/**
+ * It is the height of the last tetrimino has been placed on
+ * the field. The goal is to prevent the field from being too high.
+ *
+ * @param f Field previously allocated with @c field_new.
+ * @return the height of the last tetrimino placed.
+ */
+int eval_hlt(const struct field *f);
+
 #endif /* !__EVAL__ */

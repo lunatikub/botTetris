@@ -3,6 +3,10 @@
 
 #include "field.h"
 
+/* The evaluations features/functions have to respect
+   the following prototype to be integrated into a strategy. */
+typedef int (*eval_f)(const struct field *f);
+
 /**
  * It is the number of lines completed multiply by
  * the number of blocks completed with the last placed rotation.
@@ -51,5 +55,15 @@ int eval_delta_c(const struct field *f);
  * @return the number of holes
  */
 int eval_holes(const struct field *f);
+
+
+/**
+ * Compute the sum sequence of all wells.
+ * The goal is to prevent making wells.
+ *
+ * @param f Field previously allocated with @c field_new.
+ * @return the sum sequence of the wells.
+ */
+int eval_wells(const struct field *f);
 
 #endif /* !__EVAL__ */

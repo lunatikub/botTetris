@@ -84,12 +84,29 @@ TEST_F(holes)
   return true;
 }
 
+TEST_F(wells)
+{
+  struct field *f = field_new();
+
+  SET(f, 16, LINE({1}));
+  SET(f, 17, LINE({1, 0, 1}));
+  SET(f, 18, LINE({1, 0, 1, 0, 1, 0, 1}));
+  SET(f, 19, LINE({1, 0, 1, 1, 1, 0, 1}));
+
+  EXPECT_UINT_EQ(eval_wells(f), 10);
+
+  free(f);
+  return true;
+
+}
+
 const static struct test eval_tests[] = {
   TEST(erosion),
   TEST(hlt),
   TEST(delta_l),
   TEST(delta_c),
   TEST(holes),
+  TEST(wells),
 };
 
 TEST_SUITE(eval);

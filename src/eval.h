@@ -56,7 +56,6 @@ int eval_delta_c(const struct field *f);
  */
 int eval_holes(const struct field *f);
 
-
 /**
  * Compute the sum sequence of all wells.
  * The goal is to prevent making wells.

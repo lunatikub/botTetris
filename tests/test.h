@@ -84,7 +84,16 @@ bool run_test_suite(const struct test_suite *ts);
 #define EXPECT_UINT_EQ(V1, V2)                  \
   if (V1 != V2) {                               \
     fprintf(stderr, RED " [test failed] " RESET \
-            "UINT_EXPECT_EQ(%s:%u,%s:%u)\n",    \
+            "EXPECT_UINT_EQ(%s:%u,%s:%u)\n",    \
+            #V1, V1, #V2, V2);                  \
+    ERR;                                        \
+    return false;                               \
+  }
+
+#define EXPECT_INT_GT(V1, V2)                   \
+  if (V1 < V2) {                                \
+    fprintf(stderr, RED " [test failed] " RESET \
+            "EXPECT_UINT_GET(%s:%i > %s:%i)\n", \
             #V1, V1, #V2, V2);                  \
     ERR;                                        \
     return false;                               \

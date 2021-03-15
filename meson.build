@@ -52,6 +52,7 @@ src = files(
   'src/tetrimino.c',
   'src/field.c',
   'src/eval.c',
+  'src/strategy.c',
 )
 
 # binary
